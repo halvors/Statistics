@@ -3,13 +3,14 @@
 using namespace std;
 
 void printTable(double **table, int rows, int columns) {
-    printf("Frekvens:\t");
-    printf("Relativ:\t");
-    printf("Kumulativ:\t");
+    printf("Antall (frekvens):\t");
+    printf("Kumulativ frekvens:\t");
+    printf("Kumulativ relativ frekvens:\t");
+    printf("\n");
 
     for (int row = 0; row < rows; row++) {
-
-            printf("%f\t", table[column][row]);
+        for (int column = 0; column < columns; column++) {
+            printf("%f\t\t", table[row][column]);
         }
 
         printf("\n");
@@ -33,10 +34,10 @@ int main() {
     int columns = 3;
 
     // Create the multidimensional table.
-    double **table = new double*[columns];
+    double **table = new double*[rows];
 
-    for (int i = 0; i < columns; i++) {
-        table[i] = new double[rows];
+    for (int i = 0; i < rows; i++) {
+        table[i] = new double[columns];
     }
 
     // Loop through thew array and gather values for each index.
@@ -46,31 +47,32 @@ int main() {
         printf("Enter number value for index %i: ", i + 1);
         scanf("%o", &value);
 
-        table[0][i] = value;
+        table[i][0] = value;
     }
 
-    // Calculate the sum of all values.
+    // Calculate the sum of all values at column 0.
     double sum = 0;
 
     for (int i = 0; i < rows; i++) {
-        sum += table[0][i];
-
-        printf("Adding value: %f\n", table[0][i]);
+        sum += table[i][0];
     }
 
-    printf("Sum is: %f\n", sum);
+    // Calculate the "kumulativ frekvens" values for column 1.
+    double lastIndex = 0;
 
-    // Calculate the "relativ frekvens" values.
     for (int i = 0; i < rows; i++) {
-        table[1][i] = table[0][i] / sum;
+        lastIndex += table[i][0];
+        table[i][1] = lastIndex;
     }
 
-    // Calculate the "kumulativ frekvens" values.
+    // Calculate the "kumulativ relativ frekvens" values for column 2.
     for (int i = 0; i < rows; i++) {
-        table[2][i] = table[0][i] / sum;
+        table[i][2] = (table[i][1] / lastIndex) * 100;
     }
 
     printTable(table, rows, columns);
+
+    printf("Sum is: %f\n", sum);
 
     return 0;
 }

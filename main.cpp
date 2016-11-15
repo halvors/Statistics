@@ -74,5 +74,7 @@ int main() {
 
     printf("Sum is: %f\n", sum);
 
+    delete[] table;
+
     return 0;
 }

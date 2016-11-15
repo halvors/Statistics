@@ -61,8 +61,7 @@ int main() {
     double lastIndex = 0;
 
     for (int i = 0; i < rows; i++) {
-        lastIndex += table[i][0];
-        table[i][1] = lastIndex;
+        table[i][1] = lastIndex += table[i][0];
     }
 
     // Calculate the "kumulativ relativ frekvens" values for column 2.
